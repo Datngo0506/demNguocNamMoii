@@ -1,36 +1,30 @@
 const fireworkContainer = document.querySelector('.fireworks-container')
-const daysSpan = document.querySelector('#days')
-const hoursSpan = document.querySelector('#hours')
-const minutesSpan = document.querySelector('#minutes')
-const secondsSpan = document.querySelector('#seconds')
-const newYear = document.querySelector('#new-year')
-
-const now = new Date()
-
-newYear.innerHTML = now.getFullYear() + 1
-
-const countToDate = new Date(now.getFullYear() + 1, 0, 1).getTime()
 
 const countdown = () => {
-    const now = new Date().getTime()
-
-    const distance = countToDate - now
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24))
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000)
-
-    daysSpan.innerHTML = days
-    hoursSpan.innerHTML = hours
-    minutesSpan.innerHTML = minutes
-    secondsSpan.innerHTML = seconds
-
-    if (distance < 0) {
-        clearInterval(countdownInterval)
+  let dateNewYear = new Date('Jan 22, 2023 00:00:00').getTime();
+    function refreshCounter() {
+        let dateCurrent = new Date().getTime(),
+            timeLeft = dateNewYear - dateCurrent;
+        let second = 1000,
+            minute = second * 60,
+            hour = minute * 60,
+            day = hour * 24;
+        let tLDay = zeroPad(Math.floor(timeLeft / day), 2),
+            tLHour = zeroPad(Math.floor((timeLeft % day) / hour), 2),
+            tLMinute = zeroPad(Math.floor((timeLeft % hour) / minute), 2),
+            tLSecond = zeroPad(Math.floor((timeLeft % minute) / second), 2);
+        function zeroPad(num, count) {
+            return num.toString().padStart(count, "0");
+        }
+        document.getElementById("day").innerText = tLDay;
+        document.getElementById("hour").innerText = tLHour;
+        document.getElementById("minute").innerText = tLMinute;
+        document.getElementById("second").innerText = tLSecond;
     }
+    setInterval(() => {
+        refreshCounter();
+    }, 1000);
 }
-
 countdown()
 
 const countdownInterval = setInterval(countdown, 1000)
